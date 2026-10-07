@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MP Group 2 Sub-group 4 Marks Calculator</title>
+<meta name="description" content="MPESB Group-2 Sub-group-4 CRT 2026 marks, percentile, shift rank and overall rank calculator from your response sheet link.">
+<meta name="theme-color" content="#14213d">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2314213d'/%3E%3Cpath d='M16 44V20h8l8 14 8-14h8v24h-7V32l-7 12h-4l-7-12v12z' fill='%23f4a300'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=DM+Sans:wght@400;500;700&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fbf6ec; --card:#ffffff; --ink:#14213d; --muted:#5d6577; --line:#e8dfcc;
+  --accent:#e8590c; --accent-ink:#ffffff; --gold:#f4a300;
+  --ok:#17794f; --ok-bg:#e3f4ea; --bad:#b8322a; --bad-bg:#fbe6e3; --neu:#5d6577; --neu-bg:#eef0f4;
+  --warn-bg:#fff3d6; --warn-ink:#6b4a00; --shadow:0 1px 0 rgba(20,33,61,.04),0 10px 30px -12px rgba(20,33,61,.18);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1524; --card:#18203a; --ink:#f3efe6; --muted:#a3abc0; --line:#2b3556;
+    --accent:#ff7a2e; --ok:#52d19a; --ok-bg:#12372b; --bad:#ff8a80; --bad-bg:#3d1c1c; --neu:#a3abc0; --neu-bg:#222c4a;
+    --warn-bg:#3a2e0e; --warn-ink:#ffd98a; --shadow:0 10px 30px -12px rgba(0,0,0,.6);
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "DM Sans","Noto Sans Devanagari",system-ui,sans-serif;min-height:100vh;display:flex;flex-direction:column}
+.wrap{width:100%;max-width:760px;margin:0 auto;padding:0 16px}
+h1,h2,h3,.disp{font-family:"Bricolage Grotesque","Noto Sans Devanagari",system-ui,sans-serif;letter-spacing:-.02em}
+header{padding:18px 0 4px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700}
+.logo{width:34px;height:34px;border-radius:9px;background:var(--ink);display:grid;place-items:center}
+.logo svg{width:20px;height:20px}
+.lang{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--card)}
+.lang button{border:0;background:none;color:var(--muted);font:inherit;font-size:13px;font-weight:700;padding:6px 12px;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.hero{padding:26px 0 10px}
+.chip{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent);padding:4px 10px;border-radius:999px}
+h1{font-size:clamp(28px,7vw,44px);line-height:1.08;margin:12px 0 8px;font-weight:800}
+.sub{color:var(--muted);margin:0;max-width:56ch}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:18px}
+.form{margin-top:20px}
+.tabs{display:flex;gap:6px;margin-bottom:14px;background:var(--neu-bg);padding:4px;border-radius:12px}
+.tabs button{flex:1;border:0;background:none;color:var(--muted);font:inherit;font-weight:700;font-size:14px;padding:9px 8px;border-radius:9px;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+label{display:block;font-size:13px;font-weight:700;margin:12px 0 6px}
+input[type=url],textarea,select{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:12px;padding:12px 13px;outline:none}
+textarea{min-height:120px;resize:vertical;font-size:14px}
+input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent)}
+.row{display:grid;gap:12px;grid-template-columns:1fr}
+@media(min-width:560px){.row.two{grid-template-columns:1fr 1fr}}
+.hint{font-size:13px;color:var(--muted);margin:6px 0 0}
+details{margin-top:12px;border-top:1px dashed var(--line);padding-top:10px}
+summary{cursor:pointer;font-weight:700;font-size:14px;color:var(--muted)}
+.check{display:flex;gap:10px;align-items:flex-start;font-weight:500;font-size:14px;margin:14px 0 0}
+.check input{margin-top:4px;width:18px;height:18px;accent-color:var(--accent)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:inherit;font-weight:700;border:0;border-radius:12px;padding:13px 18px;cursor:pointer;text-decoration:none;transition:transform .08s}
+.btn:active{transform:scale(.98)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);width:100%;margin-top:16px;font-size:17px;padding:15px}
+.btn.primary[disabled]{opacity:.65;cursor:wait}
+.btn.ghost{background:var(--neu-bg);color:var(--ink)}
+.btn.dark{background:var(--ink);color:var(--bg)}
+.msg{margin-top:14px;padding:12px 14px;border-radius:12px;font-size:14px;display:none}
+.msg.show{display:block}
+.msg.err{background:var(--bad-bg);color:var(--bad)}
+.msg.warn{background:var(--warn-bg);color:var(--warn-ink)}
+.msg button{margin-top:8px}
+/* result */
+#result{display:none;margin-top:22px}
+#result.show{display:block;animation:rise .35s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.score{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.ring{--p:0;width:132px;height:132px;border-radius:50%;background:conic-gradient(var(--accent) calc(var(--p)*1%),var(--neu-bg) 0);display:grid;place-items:center;flex:none}
+.ring>div{width:104px;height:104px;border-radius:50%;background:var(--card);display:grid;place-items:center;text-align:center;line-height:1.1}
+.ring b{font-family:"Bricolage Grotesque",sans-serif;font-size:28px;font-weight:800}
+.ring span{font-size:12px;color:var(--muted)}
+.score h2{margin:0;font-size:24px}
+.shiftline{color:var(--muted);font-size:14px;margin:2px 0 0}
+.tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:16px}
+@media(min-width:560px){.tiles{grid-template-columns:repeat(4,1fr)}}
+.tile{border-radius:14px;padding:12px;background:var(--neu-bg)}
+.tile small{display:block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;opacity:.8}
+.tile b{font-family:"Bricolage Grotesque",sans-serif;font-size:28px;font-weight:800;line-height:1.15}
+.tile.ok{background:var(--ok-bg);color:var(--ok)}
+.tile.bad{background:var(--bad-bg);color:var(--bad)}
+.ranks{display:grid;gap:10px;margin-top:10px}
+@media(min-width:560px){.ranks{grid-template-columns:repeat(3,1fr)}}
+.rk{border:1.5px solid var(--line);border-radius:14px;padding:14px}
+.rk small{color:var(--muted);font-weight:700;font-size:12px;letter-spacing:.04em;text-transform:uppercase}
+.rk b{display:block;font-family:"Bricolage Grotesque",sans-serif;font-size:30px;line-height:1.15;font-weight:800}
+.rk em{font-style:normal;color:var(--muted);font-size:13px}
+.rk.hl{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.rk.hl small,.rk.hl em{color:color-mix(in srgb,var(--bg) 70%,transparent)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.actions .btn{flex:1 1 150px}
+.pool h3{margin:0 0 4px;font-size:17px}
+.bars{margin-top:10px;display:grid;gap:5px}
+.bar{display:grid;grid-template-columns:104px 1fr 44px;gap:8px;align-items:center;font-size:12px}
+.bar i{display:block;height:9px;border-radius:5px;background:var(--line);position:relative;overflow:hidden}
+.bar i u{position:absolute;inset:0 auto 0 0;background:var(--muted);border-radius:5px}
+.bar.me i u{background:var(--accent)}
+.bar.me{font-weight:700}
+.bar span:last-child{text-align:right;color:var(--muted)}
+.how{margin-top:26px}
+.how h2{font-size:20px;margin:0 0 8px}
+.how ol{padding-left:20px;margin:8px 0}
+.how li{margin:5px 0}
+.formula{font-family:ui-monospace,Menlo,monospace;font-size:14px;background:var(--neu-bg);border-radius:10px;padding:10px 12px;overflow-x:auto;white-space:nowrap}
+.fine{color:var(--muted);font-size:13px}
+footer{margin-top:auto;padding:34px 0 26px;text-align:center}
+.made{font-weight:700}
+.made .heart{color:#e0245e}
+.social{display:flex;justify-content:center;gap:10px;margin-top:12px;flex-wrap:wrap}
+.social a{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;color:#fff}
+.social .yt{background:#e62117}.social .tg{background:#229ed9}
+.social svg{width:18px;height:18px;fill:#fff}
+.disc{max-width:560px;margin:14px auto 0;font-size:12px;color:var(--muted)}
+.spin{width:16px;height:16px;border:2.5px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.sr{position:absolute;left:-9999px}
+</style>
+</head>
+<body>
+<header class="wrap">
+  <div class="top">
+    <div class="brand"><span class="logo"><svg viewBox="0 0 64 64"><path d="M10 50V14h10l12 20 12-20h10v36h-9V32L36 50h-8L19 32v18z" fill="#f4a300"/></svg></span><span data-i="brand">Ace With Abhinav</span></div>
+    <div class="lang" role="group" aria-label="Language"><button data-lang="hi" aria-pressed="true">हिं</button><button data-lang="en" aria-pressed="false">EN</button></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <span class="chip" data-i="chip">MPESB · Group-2 · Sub-group-4 · CRT 2026</span>
+    <h1 data-i="h1">Marks, Percentile &amp; Rank Calculator</h1>
+    <p class="sub" data-i="sub">Apna response sheet link daalein. Sahi, galat, marks, shift percentile, shift rank aur overall rank — sab ek jagah.</p>
+    <p class="fine" id="joined" style="margin:8px 0 0"></p>
+  </section>
+
+  <form id="form" class="card form" autocomplete="off" novalidate>
+    <div class="tabs" role="tablist">
+      <button type="button" role="tab" id="tab-link" aria-selected="true" data-i="tabLink">Response sheet link</button>
+      <button type="button" role="tab" id="tab-text" aria-selected="false" data-i="tabText">Paste page text</button>
+    </div>
+
+    <div id="pane-link">
+      <label for="url" data-i="lblUrl">Response sheet link</label>
+      <input id="url" type="url" inputmode="url" placeholder="https://…cbtexam.in/Candidate/ResponseSheet.aspx?…">
+    </div>
+    <div id="pane-text" hidden>
+      <label for="text" data-i="lblText">Page text / source</label>
+      <textarea id="text" placeholder="Ctrl + A → Ctrl + C → paste here"></textarea>
+      <p class="hint" data-i="hintText">Link kholein, poora page select karke copy karein (ya “View page source” ka HTML), aur yahan paste karein.</p>
+    </div>
+
+    <div class="row two">
+      <div>
+        <label for="shift" data-i="lblShift">Your shift</label>
+        <select id="shift"><option value="" data-i="auto">Auto-detect from link</option></select>
+      </div>
+      <div></div>
+    </div>
+
+    <details id="keybox">
+      <summary data-i="keySum">Answer key paste karein (optional)</summary>
+      <label for="key" data-i="lblKey">Answer key</label>
+      <textarea id="key" style="min-height:90px" placeholder="1 A&#10;2 C&#10;3 B&#10;…"></textarea>
+      <p class="hint" data-i="hintKey">Sirf tab jab page me sahi answer na dikhe. Format: “1 A, 2 C, 3 B …”. Dropped question ke aage “drop” likhein.</p>
+    </details>
+
+    <label class="check"><input type="checkbox" id="join" checked><span data-i="join">Mere marks ranking pool me jodein (sirf marks save honge — naam/roll number nahi). Isse sabke rank sahi aate hain.</span></label>
+
+    <button class="btn primary" id="go" type="submit"><span data-i="go">Calculate</span></button>
+    <div id="msg" class="msg" role="alert"></div>
+  </form>
+
+  <section id="result" aria-live="polite">
+    <div class="card">
+      <div class="score">
+        <div class="ring" id="ring"><div><div><b id="marks">0</b><br><span id="outof">/ 200</span></div></div></div>
+        <div>
+          <h2 data-i="resTitle">Your Result</h2>
+          <p class="shiftline" id="shiftline"></p>
+          <p class="shiftline" id="bonusline"></p>
+        </div>
+      </div>
+      <div class="tiles">
+        <div class="tile ok"><small data-i="correct">Correct</small><b id="c">0</b></div>
+        <div class="tile bad"><small data-i="wrong">Wrong</small><b id="w">0</b></div>
+        <div class="tile"><small data-i="unatt">Unattempted</small><b id="u">0</b></div>
+        <div class="tile"><small data-i="acc">Accuracy</small><b id="acc">0%</b></div>
+      </div>
+      <div class="ranks">
+        <div class="rk"><small data-i="pct">Shift Percentile</small><b id="pct">–</b><em id="pctNote"></em></div>
+        <div class="rk"><small data-i="sRank">Shift Rank</small><b id="sRank">–</b><em id="sNote"></em></div>
+        <div class="rk hl"><small data-i="oRank">Overall Rank</small><b id="oRank">–</b><em id="oNote"></em></div>
+      </div>
+      <div class="msg warn" id="poolWarn"></div>
+      <div class="actions">
+        <button class="btn dark" id="share" type="button"><span data-i="share">Share scorecard</span></button>
+        <button class="btn ghost" id="dl" type="button"><span data-i="download">Download image</span></button>
+      </div>
+    </div>
+
+    <div class="card pool" style="margin-top:12px">
+      <h3 data-i="poolTitle">Candidates per shift (this tool)</h3>
+      <p class="fine" style="margin:0" data-i="poolSub">Jitne zyada candidates judte hain, utna accurate rank.</p>
+      <div class="bars" id="bars"></div>
+    </div>
+  </section>
+
+  <section class="how card" style="margin-top:26px">
+    <h2 data-i="howTitle">How is the rank calculated?</h2>
+    <div class="formula">P = (candidates in your shift with marks ≤ yours ÷ N) × 100</div>
+    <ol>
+      <li data-i="how1">Marks = (Correct × 1) − (Wrong × ¼). Total 200 questions.</li>
+      <li data-i="how2">Har shift me alag se percentile nikalta hai — us shift ke topper ka percentile 100 hota hai, baaki unke relative.</li>
+      <li data-i="how3">22 shifts ke percentile ek saath rakhkar overall merit banti hai; zyada percentile = behtar overall rank.</li>
+      <li data-i="how4">Shift rank = apni shift me marks ke hisaab se position.</li>
+    </ol>
+    <p class="fine" data-i="howFine">Yeh ek unofficial estimate hai. Official result MPESB ke normalisation aur final answer key se aayega.</p>
+  </section>
+</main>
+
+<footer class="wrap">
+  <div class="made">Made with <span class="heart">♥</span> by Ace With Abhinav</div>
+  <div class="social">
+    <a class="yt" href="https://www.youtube.com/@ace.with.abhinav" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.2 3.6z"/></svg>YouTube</a>
+    <a class="tg" href="https://t.me/acewithabhinav" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M9.8 15.3l-.4 5.5c.6 0 .9-.3 1.2-.6l2.9-2.7 6 4.4c1.1.6 1.9.3 2.2-1L23.9 3.7c.4-1.6-.6-2.2-1.6-1.8L1.2 10c-1.6.6-1.6 1.5-.3 1.9l5.4 1.7L18.9 6c.6-.4 1.1-.2.7.2z"/></svg>Telegram</a>
+  </div>
+  <p class="disc" data-i="disc">Unofficial tool — MPESB se koi sambandh nahi. Aapka response sheet link sirf marks nikalne ke liye server par khola jata hai.</p>
+</footer>
+
+<script>
+"use strict";
+const T = {
+  hi: {
+    brand:"Ace With Abhinav", chip:"MPESB · Group-2 · Sub-group-4 · CRT 2026", h1:"मार्क्स, परसेंटाइल और रैंक कैलकुलेटर",
+    sub:"अपना response sheet लिंक डालें। सही, गलत, marks, shift percentile, shift rank और overall rank — सब एक जगह।",
+    tabLink:"Response sheet लिंक", tabText:"Page text paste करें", lblUrl:"Response sheet लिंक", lblText:"Page text / source",
+    hintText:"लिंक खोलकर पूरा पेज select करके copy करें (या “View page source” का HTML) और यहाँ paste करें।",
+    lblShift:"आपकी shift", auto:"लिंक से अपने-आप पहचानें", keySum:"Answer key paste करें (optional)", lblKey:"Answer key",
+    hintKey:"सिर्फ तब जब पेज में सही उत्तर न दिखे। Format: “1 A, 2 C, 3 B …”. Dropped प्रश्न के आगे “drop” लिखें।",
+    join:"मेरे marks ranking pool में जोड़ें (सिर्फ marks save होंगे — नाम/रोल नंबर नहीं)। इससे सबका rank सही आता है।",
+    go:"गणना करें", wait:"गणना हो रही है…", resTitle:"आपका रिज़ल्ट", correct:"सही", wrong:"गलत", unatt:"छोड़े गए", acc:"Accuracy",
+    pct:"Shift Percentile", sRank:"Shift Rank", oRank:"Overall Rank", share:"Scorecard शेयर करें", download:"इमेज डाउनलोड",
+    poolTitle:"हर shift में candidates (इस टूल पर)", poolSub:"जितने ज़्यादा candidates जुड़ेंगे, rank उतना सटीक होगा।",
+    howTitle:"Rank कैसे निकलता है?", how1:"Marks = (सही × 1) − (गलत × ¼)। कुल 200 प्रश्न।",
+    how2:"हर shift का percentile अलग से निकलता है — उस shift के topper का percentile 100 होता है, बाकी उसके relative।",
+    how3:"22 shifts के percentile को साथ रखकर overall merit बनती है; ज़्यादा percentile = बेहतर overall rank।",
+    how4:"Shift rank = अपनी shift में marks के हिसाब से position।",
+    howFine:"यह एक unofficial अनुमान है। Official result MPESB की normalisation और final answer key से आएगा।",
+    disc:"Unofficial tool — MPESB से कोई संबंध नहीं। आपका लिंक सिर्फ marks निकालने के लिए सर्वर पर खोला जाता है।",
+    of:"में से", joinedN:(n)=>`अब तक ${n.toLocaleString("en-IN")} candidates जुड़ चुके हैं`, bonus:(n)=>`${n} dropped प्रश्न के marks सबको दिए गए`,
+    estimated:"अनुमानित", amongTool:(n)=>`इस टूल के ${n.toLocaleString("en-IN")} candidates में`, inShift:(n)=>`इस shift के ${n.toLocaleString("en-IN")} में`,
+    lowPool:(n)=>`आपकी shift में अभी सिर्फ ${n} candidates हैं, इसलिए percentile/rank अभी अनुमानित है। दोस्तों के साथ शेयर करें — ज़्यादा candidates जुड़ने पर यह सटीक होगा।`,
+    partial:(n)=>`पेज से सिर्फ ${n} प्रश्न मिले (200 नहीं), इसलिए आप ranking pool में नहीं जुड़े हैं।`,
+    notJoined:"आप ranking pool में नहीं जुड़े — ऊपर दिखा rank सिर्फ अनुमान है।",
+    needShift:"अपनी shift चुनें", enterInput:"लिंक या page text डालें।", netErr:"नेटवर्क error। दोबारा try करें।",
+    useText:"Page text paste करें", copyDebug:"Debug info copy करें", copied:"Copy हो गया", shared:"Share नहीं हो पाया — इमेज डाउनलोड हो गई।",
+    needKey:"Answer key भरें और दोबारा गणना करें।",
+  },
+  en: {
+    brand:"Ace With Abhinav", chip:"MPESB · Group-2 · Sub-group-4 · CRT 2026", h1:"Marks, Percentile & Rank Calculator",
+    sub:"Paste your response sheet link. Correct, wrong, marks, shift percentile, shift rank and overall rank — all in one place.",
+    tabLink:"Response sheet link", tabText:"Paste page text", lblUrl:"Response sheet link", lblText:"Page text / source",
+    hintText:"Open the link, select the whole page and copy it (or the HTML from “View page source”), then paste it here.",
+    lblShift:"Your shift", auto:"Auto-detect from link", keySum:"Paste answer key (optional)", lblKey:"Answer key",
+    hintKey:"Only needed if the page doesn't show correct answers. Format: “1 A, 2 C, 3 B …”. Write “drop” next to dropped questions.",
+    join:"Add my marks to the ranking pool (only marks are saved — no name or roll number). This makes everyone's rank accurate.",
+    go:"Calculate", wait:"Calculating…", resTitle:"Your Result", correct:"Correct", wrong:"Wrong", unatt:"Unattempted", acc:"Accuracy",
+    pct:"Shift Percentile", sRank:"Shift Rank", oRank:"Overall Rank", share:"Share scorecard", download:"Download image",
+    poolTitle:"Candidates per shift (this tool)", poolSub:"The more candidates join, the more accurate the rank.",
+    howTitle:"How is the rank calculated?", how1:"Marks = (Correct × 1) − (Wrong × ¼). 200 questions in total.",
+    how2:"Percentile is computed separately within each shift — the shift topper gets 100, everyone else relative to them.",
+    how3:"Percentiles of all 22 shifts are pooled to make the overall merit; higher percentile = better overall rank.",
+    how4:"Shift rank = your position by marks inside your own shift.",
+    howFine:"This is an unofficial estimate. The official result will follow MPESB's normalisation and final answer key.",
+    disc:"Unofficial tool — not affiliated with MPESB. Your link is opened on the server only to compute marks.",
+    of:"of", joinedN:(n)=>`${n.toLocaleString("en-IN")} candidates have joined so far`, bonus:(n)=>`${n} dropped question(s) credited to everyone`,
+    estimated:"Estimated", amongTool:(n)=>`among ${n.toLocaleString("en-IN")} candidates on this tool`, inShift:(n)=>`of ${n.toLocaleString("en-IN")} in this shift`,
+    lowPool:(n)=>`Only ${n} candidate(s) in your shift so far, so percentile/rank is still approximate. Share with friends — it gets accurate as more join.`,
+    partial:(n)=>`Only ${n} questions were found on the page (not 200), so you were not added to the ranking pool.`,
+    notJoined:"You are not in the ranking pool — the rank shown is only an estimate.",
+    needShift:"Select your shift", enterInput:"Enter a link or paste page text.", netErr:"Network error. Please try again.",
+    useText:"Paste page text", copyDebug:"Copy debug info", copied:"Copied", shared:"Couldn't share — image downloaded instead.",
+    needKey:"Fill in the answer key and calculate again.",
+  },
+};
+const $ = (id) => document.getElementById(id);
+let lang = "hi", last = null, lastDebug = null;
+try { lang = localStorage.getItem("lang") || "hi"; } catch {}
+const t = (k, ...a) => { const v = T[lang][k]; return typeof v === "function" ? v(...a) : v; };
+
+function applyLang() {
+  document.documentElement.lang = lang;
+  document.querySelectorAll("[data-i]").forEach((el) => { const v = T[lang][el.dataset.i]; if (typeof v === "string") el.textContent = v; });
+  document.querySelectorAll("[data-lang]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
+  if (last) render(last);
+  if (stats) showStats();
+}
+document.querySelectorAll("[data-lang]").forEach((b) => b.addEventListener("click", () => {
+  lang = b.dataset.lang; try { localStorage.setItem("lang", lang); } catch {} applyLang();
+}));
+
+/* tabs */
+let mode = "link";
+function setMode(m) {
+  mode = m;
+  $("tab-link").setAttribute("aria-selected", m === "link"); $("tab-text").setAttribute("aria-selected", m === "text");
+  $("pane-link").hidden = m !== "link"; $("pane-text").hidden = m !== "text";
+}
+$("tab-link").onclick = () => setMode("link"); $("tab-text").onclick = () => setMode("text");
+
+/* shifts + stats */
+let stats = null;
+function fillShifts(list) {
+  const sel = $("shift");
+  list.forEach((s) => { const o = document.createElement("option"); o.value = s.id; o.textContent = s.label; sel.appendChild(o); });
+}
+function showStats() { if (stats && stats.total > 0) $("joined").textContent = t("joinedN", stats.total); }
+fetch("/api/stats").then((r) => r.json()).then((s) => { stats = s; fillShifts(s.shifts); showStats(); }).catch(() => {
+  // offline / function not deployed yet: still let user pick a shift
+  const d = [["23 Sep","23sep"],["24 Sep","24sep"],["26 Sep","26sep"],["27 Sep","27sep"],["28 Sep","28sep"],["29 Sep","29sep"],["30 Sep","30sep"],["1 Oct","01oct"],["3 Oct","03oct"],["4 Oct","04oct"],["5 Oct","05oct"]];
+  fillShifts(d.flatMap(([l, i]) => [1, 2].map((n) => ({ id: `${i}-s${n}`, label: `${l} · Shift ${n}` }))));
+});
+
+/* messages */
+function msg(kind, text, extra) {
+  const m = $("msg"); m.className = `msg show ${kind}`; m.textContent = text;
+  if (extra) m.appendChild(extra);
+}
+const clearMsg = () => { $("msg").className = "msg"; $("msg").textContent = ""; };
+function btn(label, fn) { const b = document.createElement("button"); b.type = "button"; b.className = "btn ghost"; b.textContent = label; b.onclick = fn; const w = document.createElement("div"); w.appendChild(b); return w; }
+
+/* submit */
+$("form").addEventListener("submit", async (e) => {
+  e.preventDefault(); clearMsg(); lastDebug = null;
+  const url = $("url").value.trim(), text = $("text").value.trim();
+  if (mode === "link" ? !url : !text) return msg("err", t("enterInput"));
+  const go = $("go"); go.disabled = true; go.innerHTML = '<span class="spin"></span><span>' + t("wait") + "</span>";
+  try {
+    const res = await fetch("/api/calc", {
+      method: "POST", headers: { "content-type": "application/json" },
+      body: JSON.stringify({ [mode === "link" ? "url" : "text"]: mode === "link" ? url : text, shiftId: $("shift").value || undefined, key: $("key").value || undefined, join: $("join").checked }),
+    });
+    const data = await res.json();
+    if (data.diagnostics) lastDebug = data.diagnostics;
+    if (data.ok) { last = data; render(data); return; }
+    if (data.needShift) { $("shift").focus(); return msg("warn", t("needShift")); }
+    if (data.needKey) { $("keybox").open = true; $("key").focus(); return msg("warn", `${data.error} (${t("needKey")})`); }
+    const extras = document.createElement("div");
+    if (data.fallback && mode === "link") extras.appendChild(btn(t("useText"), () => { setMode("text"); $("text").focus(); }));
+    if (lastDebug) extras.appendChild(btn(t("copyDebug"), async (ev) => {
+      try { await navigator.clipboard.writeText(JSON.stringify(lastDebug, null, 1)); ev.target.textContent = t("copied"); } catch {}
+    }));
+    msg("err", data.error || t("netErr"), extras);
+  } catch { msg("err", t("netErr")); }
+  finally { go.disabled = false; go.innerHTML = "<span>" + t("go") + "</span>"; }
+});
+
+/* render */
+const f2 = (n) => (Math.round(n * 100) / 100).toLocaleString("en-IN", { maximumFractionDigits: 2 });
+function render(d) {
+  const { score: s, ranks: r } = d;
+  $("result").classList.add("show");
+  $("marks").textContent = f2(s.marks); $("outof").textContent = `/ ${d.maxMarks}`;
+  $("ring").style.setProperty("--p", Math.max(0, Math.min(100, (s.marks / d.maxMarks) * 100)));
+  $("shiftline").textContent = d.shiftLabel;
+  $("bonusline").textContent = s.bonus ? t("bonus", s.bonus) : "";
+  $("c").textContent = s.correct; $("w").textContent = s.wrong; $("u").textContent = s.unattempted;
+  $("acc").textContent = s.attempted ? `${Math.round((s.correct / s.attempted) * 1000) / 10}%` : "–";
+  $("pct").textContent = r.percentile.toFixed(4);
+  $("pctNote").textContent = t("inShift", r.sampleShift);
+  const est = r.extrapolated ? `${t("estimated")} ` : "";
+  $("sRank").textContent = `${est}${r.shiftRank.toLocaleString("en-IN")}`;
+  $("sNote").textContent = `${t("of")} ${r.shiftTotal.toLocaleString("en-IN")}`;
+  $("oRank").textContent = `${est}${r.overallRank.toLocaleString("en-IN")}`;
+  $("oNote").textContent = r.extrapolated ? `${t("of")} ${r.overallTotal.toLocaleString("en-IN")}` : t("amongTool", r.overallTotal);
+  const w = [];
+  if (d.partial) w.push(t("partial", d.questionsParsed)); else if (!d.joined) w.push(t("notJoined"));
+  if (r.sampleShift < 30) w.push(t("lowPool", r.sampleShift));
+  const pw = $("poolWarn"); pw.textContent = w.join(" "); pw.className = "msg warn" + (w.length ? " show" : "");
+  const max = Math.max(1, ...d.shiftStats.map((x) => x.n));
+  $("bars").innerHTML = d.shiftStats.map((x) =>
+    `<div class="bar${x.id === d.shiftId ? " me" : ""}"><span>${x.label}</span><i><u style="width:${(x.n / max) * 100}%"></u></i><span>${x.n.toLocaleString("en-IN")}</span></div>`).join("");
+  $("result").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+/* scorecard image */
+function drawCard(d) {
+  const W = 1080, H = 1350, c = document.createElement("canvas"); c.width = W; c.height = H;
+  const x = c.getContext("2d"), s = d.score, r = d.ranks;
+  const F = (w, px) => `${w} ${px}px "Bricolage Grotesque","DM Sans",system-ui,sans-serif`;
+  const g = x.createLinearGradient(0, 0, W, H); g.addColorStop(0, "#14213d"); g.addColorStop(1, "#243b6b");
+  x.fillStyle = g; x.fillRect(0, 0, W, H);
+  x.fillStyle = "rgba(244,163,0,.12)"; x.beginPath(); x.arc(W - 80, 120, 360, 0, 7); x.fill();
+  x.fillStyle = "rgba(232,89,12,.14)"; x.beginPath(); x.arc(40, H - 160, 300, 0, 7); x.fill();
+  const rr = (X, Y, w, h, rad, fill) => { x.fillStyle = fill; x.beginPath(); x.roundRect(X, Y, w, h, rad); x.fill(); };
+  x.textBaseline = "alphabetic"; x.fillStyle = "#f4a300"; x.font = F(800, 30); x.fillText("MPESB · GROUP-2 · SUB-GROUP-4 · CRT 2026", 70, 110);
+  x.fillStyle = "#fff"; x.font = F(800, 76); x.fillText("My Score Card", 70, 205);
+  x.fillStyle = "rgba(255,255,255,.75)"; x.font = F(600, 36); x.fillText(d.shiftLabel, 70, 262);
+  rr(70, 310, 940, 330, 36, "#fbf6ec");
+  x.fillStyle = "#5d6577"; x.font = F(700, 30); x.fillText("MARKS", 120, 378);
+  x.fillStyle = "#14213d"; x.font = F(800, 168); x.fillText(f2(s.marks), 112, 540);
+  const mw = x.measureText(f2(s.marks)).width; x.fillStyle = "#5d6577"; x.font = F(700, 52); x.fillText(`/ ${d.maxMarks}`, 130 + mw, 540);
+  // progress bar
+  rr(120, 580, 840, 22, 11, "#e8dfcc"); rr(120, 580, Math.max(22, 840 * Math.max(0, s.marks) / d.maxMarks), 22, 11, "#e8590c");
+  const tile = (X, label, val, bg, fg) => { rr(X, 680, 215, 150, 26, bg); x.fillStyle = fg; x.font = F(700, 24); x.fillText(label, X + 24, 725); x.font = F(800, 66); x.fillText(String(val), X + 24, 800); };
+  tile(70, "CORRECT", s.correct, "#e3f4ea", "#17794f"); tile(305, "WRONG", s.wrong, "#fbe6e3", "#b8322a");
+  tile(540, "SKIPPED", s.unattempted, "#eef0f4", "#14213d"); tile(775, "ACCURACY", s.attempted ? Math.round(s.correct / s.attempted * 100) + "%" : "–", "#fff3d6", "#6b4a00");
+  const est = r.extrapolated ? "~" : "";
+  const big = (Y, label, val, sub, hl) => {
+    rr(70, Y, 940, 150, 30, hl ? "#e8590c" : "rgba(255,255,255,.1)");
+    x.fillStyle = hl ? "rgba(255,255,255,.85)" : "rgba(255,255,255,.7)"; x.font = F(700, 28); x.fillText(label, 110, Y + 52);
+    x.fillStyle = "#fff"; x.font = F(800, 72); x.fillText(val, 110, Y + 124);
+    x.textAlign = "right"; x.fillStyle = hl ? "rgba(255,255,255,.9)" : "rgba(255,255,255,.65)"; x.font = F(600, 28); x.fillText(sub, 970, Y + 124); x.textAlign = "left";
+  };
+  big(860, "SHIFT PERCENTILE", r.percentile.toFixed(4), `of ${r.sampleShift.toLocaleString("en-IN")} in shift`, false);
+  big(1030, "SHIFT RANK", `${est}${r.shiftRank.toLocaleString("en-IN")}`, `of ${r.shiftTotal.toLocaleString("en-IN")}`, false);
+  big(1200 - 0, "OVERALL RANK", `${est}${r.overallRank.toLocaleString("en-IN")}`, `of ${r.overallTotal.toLocaleString("en-IN")}`, true);
+  // footer (tight inside canvas)
+  return c;
+}
+function withFooter(c) {
+  // extend canvas for footer strip
+  const out = document.createElement("canvas"); out.width = 1080; out.height = 1500; const x = out.getContext("2d");
+  x.drawImage(c, 0, 0);
+  x.fillStyle = "#14213d"; x.fillRect(0, 1350, 1080, 150);
+  const grd = x.createLinearGradient(0, 0, 1080, 1500); grd.addColorStop(0, "#14213d"); grd.addColorStop(1, "#243b6b"); x.fillStyle = grd; x.fillRect(0, 1350, 1080, 150);
+  x.fillStyle = "#fff"; x.font = '800 38px "Bricolage Grotesque","DM Sans",system-ui,sans-serif'; x.textAlign = "center";
+  const label = "Made with  by Ace With Abhinav", w = x.measureText(label).width, X0 = 540 - w / 2;
+  const before = "Made with ", bw = x.measureText(before).width;
+  x.textAlign = "left"; x.fillText(before, X0, 1418);
+  // heart
+  const hx = X0 + bw + 20, hy = 1405; x.fillStyle = "#ff4d79"; x.beginPath();
+  x.moveTo(hx, hy + 14); x.bezierCurveTo(hx - 30, hy - 8, hx - 14, hy - 30, hx, hy - 12); x.bezierCurveTo(hx + 14, hy - 30, hx + 30, hy - 8, hx, hy + 14); x.fill();
+  x.fillStyle = "#fff"; x.fillText(" by Ace With Abhinav", X0 + bw + 40, 1418);
+  x.fillStyle = "rgba(255,255,255,.65)"; x.font = '600 28px "DM Sans",system-ui,sans-serif'; x.textAlign = "center";
+  x.fillText("youtube.com/@ace.with.abhinav  ·  t.me/acewithabhinav", 540, 1466);
+  return out;
+}
+async function cardBlob() {
+  try { await document.fonts.ready; } catch {}
+  const c = withFooter(drawCard(last));
+  return new Promise((res) => c.toBlob(res, "image/png"));
+}
+function download(blob) { const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "mp-group2-sg4-scorecard.png"; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000); }
+$("dl").onclick = async () => { if (last) download(await cardBlob()); };
+$("share").onclick = async () => {
+  if (!last) return;
+  const blob = await cardBlob(), r = last.ranks, s = last.score;
+  const text = `MP Group-2 Sub-group-4 — ${last.shiftLabel}\nMarks: ${f2(s.marks)}/${last.maxMarks} | ✅ ${s.correct} ❌ ${s.wrong}\nPercentile: ${r.percentile.toFixed(4)} | Overall Rank: ${r.extrapolated ? "~" : ""}${r.overallRank}\nCheck yours: ${location.origin}\nMade with ♥ by Ace With Abhinav`;
+  const file = new File([blob], "scorecard.png", { type: "image/png" });
+  try {
+    if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], text }); return; }
+    if (navigator.share) { await navigator.share({ text }); return; }
+  } catch (e) { if (e && e.name === "AbortError") return; }
+  download(blob); msg("warn", t("shared"));
+};
+applyLang();
+</script>
+</body>
+</html>
